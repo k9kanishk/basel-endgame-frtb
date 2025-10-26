@@ -24,7 +24,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          # removed cache line because repo has no lockfile
 
       - name: Install deps
         run: npm install
