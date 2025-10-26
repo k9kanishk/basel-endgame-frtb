@@ -1,5 +1,5 @@
 import { RiskClassConfig } from './basel_params'
-
+ 
 export type SBMCharges = {
   S_delta: number[];
   S_vega: number[];
