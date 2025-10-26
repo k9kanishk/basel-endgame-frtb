@@ -1,11 +1,12 @@
 'use client'
 import { useMemo, useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle, Button, Input, Label, Select, Option, Table, Thead, Tbody, Tr, Th, Td, Badge, Alert, AlertDescription, Dialog, DialogHeader, DialogTitle } from '@/components/ui/stubs'
+
 import { TrendingUp, TrendingDown, AlertTriangle, BarChart3, Info, Target, X } from 'lucide-react'
 import Papa from 'papaparse'
-import { fmt$, fmtPct } from '@/utils/format'
-import { RATES_SA, FX_SA, EQ_SA, mapAssetClassToRisk, RiskClassConfig } from '@/lib/basel_params'
-import { computeSBM, K_to_RWA, applyOutputFloor, approxRatesGreeks, approxFXGreeks, approxEqGreeks } from '@/lib/frtb'
+import { Card, CardContent, CardHeader, CardTitle, Button, Input, Label, Select, Option, Table, Thead, Tbody, Tr, Th, Td, Badge, Alert, AlertDescription, Dialog, DialogHeader, DialogTitle } from '../components/ui/stubs'
+import { fmt$, fmtPct } from '../utils/format'
+import { RATES_SA, FX_SA, EQ_SA, mapAssetClassToRisk } from '../lib/basel_params'
+import { computeSBM, K_to_RWA, applyOutputFloor, approxRatesGreeks, approxFXGreeks, approxEqGreeks } from '../lib/frtb'
 
 // === INTERFACES ===
 interface Instrument {
