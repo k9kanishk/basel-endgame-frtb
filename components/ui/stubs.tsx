@@ -1,19 +1,17 @@
 // components/ui/stubs.tsx
 import React, { PropsWithChildren } from "react";
+
+// Minimal class combiner to avoid clsx dependency
 const cx = (...parts: Array<string | false | null | undefined>) =>
   parts.filter(Boolean).join(" ");
 
-/* ---------- helpers ---------- */
 type BaseProps = PropsWithChildren<{ className?: string }>;
 
 /* ---------- Card ---------- */
 export function Card({ className, children, ...rest }: BaseProps) {
   return (
     <div
-      className={clsx(
-        "bg-white rounded-2xl shadow-sm border border-gray-200",
-        className
-      )}
+      className={cx("bg-white rounded-2xl shadow-sm border border-gray-200", className)}
       {...rest}
     >
       {children}
@@ -22,21 +20,21 @@ export function Card({ className, children, ...rest }: BaseProps) {
 }
 export function CardHeader({ className, children, ...rest }: BaseProps) {
   return (
-    <div className={clsx("px-4 py-3 border-b border-gray-100", className)} {...rest}>
+    <div className={cx("px-4 py-3 border-b border-gray-100", className)} {...rest}>
       {children}
     </div>
   );
 }
 export function CardContent({ className, children, ...rest }: BaseProps) {
   return (
-    <div className={clsx("px-4 py-4", className)} {...rest}>
+    <div className={cx("px-4 py-4", className)} {...rest}>
       {children}
     </div>
   );
 }
 export function CardTitle({ className, children, ...rest }: BaseProps) {
   return (
-    <h3 className={clsx("text-lg font-semibold", className)} {...rest}>
+    <h3 className={cx("text-lg font-semibold", className)} {...rest}>
       {children}
     </h3>
   );
@@ -67,7 +65,7 @@ export function Button({
       : "bg-black text-white hover:bg-gray-800";
   const s = size === "sm" ? "px-2.5 py-1.5 text-sm rounded-lg" : "px-3.5 py-2 rounded-xl";
   return (
-    <button className={clsx(v, s, "transition", className)} {...rest}>
+    <button className={cx(v, s, "transition", className)} {...rest}>
       {children}
     </button>
   );
@@ -78,7 +76,7 @@ type InputProps = React.InputHTMLAttributes<HTMLInputElement> & { className?: st
 export function Input({ className, ...rest }: InputProps) {
   return (
     <input
-      className={clsx(
+      className={cx(
         "w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:ring-2 focus:ring-gray-300",
         className
       )}
@@ -89,7 +87,7 @@ export function Input({ className, ...rest }: InputProps) {
 
 export function Label({ className, children, ...rest }: BaseProps) {
   return (
-    <label className={clsx("mb-1 block text-sm font-medium text-gray-700", className)} {...rest}>
+    <label className={cx("mb-1 block text-sm font-medium text-gray-700", className)} {...rest}>
       {children}
     </label>
   );
@@ -105,7 +103,7 @@ export function Select({ value, onChange, children, className, ...rest }: Select
     <select
       value={value}
       onChange={(e) => onChange?.(e.target.value)}
-      className={clsx(
+      className={cx(
         "w-full rounded-lg border border-gray-300 px-3 py-2 bg-white focus:ring-2 focus:ring-gray-300",
         className
       )}
@@ -128,7 +126,7 @@ export function Option({ className, children, ...rest }: OptionProps) {
 /* ---------- Table ---------- */
 export function Table({ className, children, ...rest }: BaseProps) {
   return (
-    <div className={clsx("overflow-x-auto", className)} {...rest}>
+    <div className={cx("overflow-x-auto", className)} {...rest}>
       <table className="min-w-full text-sm">{children}</table>
     </div>
   );
@@ -149,21 +147,21 @@ export function Tbody({ className, children, ...rest }: BaseProps) {
 }
 export function Tr({ className, children, ...rest }: BaseProps) {
   return (
-    <tr className={clsx("border-b last:border-0", className)} {...rest}>
+    <tr className={cx("border-b last:border-0", className)} {...rest}>
       {children}
     </tr>
   );
 }
 export function Th({ className, children, ...rest }: BaseProps) {
   return (
-    <th className={clsx("text-left px-3 py-2 font-semibold text-gray-700", className)} {...rest}>
+    <th className={cx("text-left px-3 py-2 font-semibold text-gray-700", className)} {...rest}>
       {children}
     </th>
   );
 }
 export function Td({ className, children, ...rest }: BaseProps) {
   return (
-    <td className={clsx("px-3 py-2 align-top", className)} {...rest}>
+    <td className={cx("px-3 py-2 align-top", className)} {...rest}>
       {children}
     </td>
   );
@@ -179,7 +177,7 @@ export function Badge({ variant = "default", className, children, ...rest }: Bad
       ? "bg-gray-200 text-gray-900"
       : "bg-gray-900 text-white";
   return (
-    <span className={clsx("inline-flex items-center rounded-full px-2 py-0.5 text-xs", v, className)} {...rest}>
+    <span className={cx("inline-flex items-center rounded-full px-2 py-0.5 text-xs", v, className)} {...rest}>
       {children}
     </span>
   );
@@ -188,20 +186,20 @@ export function Badge({ variant = "default", className, children, ...rest }: Bad
 /* ---------- Alert ---------- */
 export function Alert({ className, children, ...rest }: BaseProps) {
   return (
-    <div className={clsx("rounded-xl border border-amber-300 bg-amber-50 p-3", className)} {...rest}>
+    <div className={cx("rounded-xl border border-amber-300 bg-amber-50 p-3", className)} {...rest}>
       {children}
     </div>
   );
 }
 export function AlertDescription({ className, children, ...rest }: BaseProps) {
   return (
-    <div className={clsx("text-sm text-amber-900", className)} {...rest}>
+    <div className={cx("text-sm text-amber-900", className)} {...rest}>
       {children}
     </div>
   );
 }
 
-/* ---------- Dialog (super-minimal) ---------- */
+/* ---------- Dialog ---------- */
 type DialogProps = BaseProps & {
   open: boolean;
   onOpenChange?: (o: boolean) => void;
@@ -224,14 +222,14 @@ export function Dialog({ open, onOpenChange, children }: DialogProps) {
 }
 export function DialogHeader({ className, children, ...rest }: BaseProps) {
   return (
-    <div className={clsx("mb-2", className)} {...rest}>
+    <div className={cx("mb-2", className)} {...rest}>
       {children}
     </div>
   );
 }
 export function DialogTitle({ className, children, ...rest }: BaseProps) {
   return (
-    <h4 className={clsx("text-lg font-semibold", className)} {...rest}>
+    <h4 className={cx("text-lg font-semibold", className)} {...rest}>
       {children}
     </h4>
   );
