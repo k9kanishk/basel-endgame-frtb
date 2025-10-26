@@ -24,7 +24,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: 'npm'
+          cache: ''  # disable caching since no lockfile exists
 
       - name: Install deps
         run: npm install
