@@ -24,15 +24,13 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18
-          cache: ''  # disable caching since no lockfile exists
+          cache: ''   # no lockfile; keep cache disabled
 
       - name: Install deps
         run: npm install
 
-      - name: Build (static export)
-        run: |
-          npm run build
-          npx next export
+      - name: Build (static export via next.config.mjs)
+        run: npm run build    # produces ./out because output:'export'
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
