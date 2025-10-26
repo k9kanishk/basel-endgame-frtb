@@ -1,6 +1,7 @@
 // components/ui/stubs.tsx
 import React, { PropsWithChildren } from "react";
-import clsx from "clsx";
+const cx = (...parts: Array<string | false | null | undefined>) =>
+  parts.filter(Boolean).join(" ");
 
 /* ---------- helpers ---------- */
 type BaseProps = PropsWithChildren<{ className?: string }>;
