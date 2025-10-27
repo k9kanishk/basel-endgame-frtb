@@ -52,6 +52,22 @@ interface DeskSummary {
   percentageChange: number
 }
 
+function parseCsv(text: string) {
+  // columns: instrument_id,risk_class,bucket,type,value
+  const rows = text.trim().split(/\r?\n/).slice(1); // skip header
+  const out: Record<string, any> = {};
+  for (const r of rows) {
+    if (!r.trim()) continue;
+    const [instrument_id, risk_class, bucket, type, value] = r.split(",").map(s => s.trim());
+    if (!out[instrument_id]) out[instrument_id] = {};
+    if (!out[instrument_id][risk_class]) out[instrument_id][risk_class] = {};
+    if (!out[instrument_id][risk_class][bucket]) out[instrument_id][risk_class][bucket] = {};
+    out[instrument_id][risk_class][bucket][type] = Number(value);
+  }
+  return out;
+}
+
+
 // CSV override: instrument_id,risk_class,bucket,type,value
 // Example types: dv01, vega, curvature
  type CSVRow = { instrument_id: string; risk_class?: string; bucket?: string; type: string; value: string };
