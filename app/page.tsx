@@ -67,6 +67,8 @@ function parseCsv(text: string) {
   return out;
 }
 
+<input type="file" accept=".csv" onChange={onCsvChange} />
+
 
 // CSV override: instrument_id,risk_class,bucket,type,value
 // Example types: dv01, vega, curvature
@@ -77,6 +79,7 @@ const ASSET_CLASSES = ['General Interest Rate Risk','FX Risk','Equity Risk - Lar
 const TRADE_TYPES = ['Swap', 'Option', 'Future', 'Forward', 'Bond']
 const DESKS = ['Rates', 'Credit', 'Equities', 'Commodities', 'FX']
 
+
 export default function BaselEndgameRiskAnalysis(){
   const [portfolio, setPortfolio] = useState<Instrument[]>([])
   const [rwaCalculations, setRwaCalculations] = useState<RWACalculation[]>([])
@@ -85,7 +88,15 @@ export default function BaselEndgameRiskAnalysis(){
   const [viewMode, setViewMode] = useState<'input'|'analysis'|'hotspots'>('input')
   const [auditOpen, setAuditOpen] = useState(false)
   const [selected, setSelected] = useState<RWACalculation | null>(null)
-  const [csvOverrides, setCsvOverrides] = useState<Record<string, GreekOverride>>({})
+  const [csvOverrides, setCsvOverrides] = useState<Record<string, any> | null>(null);
+
+async function onCsvChange(e: React.ChangeEvent<HTMLInputElement>) {
+  const f = e.target.files?.[0];
+  if (!f) return;
+  const text = await f.text();
+  setCsvOverrides(parseCsv(text));
+}
+
 
   const [newInstrument, setNewInstrument] = useState({
     name: '', notional: 1000000, maturity: 5, tradeType: 'Swap', assetClass: 'General Interest Rate Risk', desk: 'Rates'
@@ -106,6 +117,14 @@ export default function BaselEndgameRiskAnalysis(){
     const ov = csvOverrides[instr.id]
     const greeks = ov? { dv01: ov.dv01 ?? instr.delta, vega: ov.vega ?? instr.vega, curvature: ov.curvature ?? instr.curvature } : { dv01: instr.delta, vega: instr.vega, curvature: instr.curvature }
 
+    const overridesForThis = csvOverrides?.[instrument.id]?.[riskClass]?.[bucketId];
+    const dv01 = overridesForThis?.dv01 ?? auto.dv01;
+    const vega = overridesForThis?.vega ?? auto.vega;
+    const curvature = overridesForThis?.curvature ?? auto.curvature;
+
+// pass dv01/vega/curvature to computeSBM_* instead of the auto values
+
+    
     const pre = computeSBM(cfg, bucketIdx, greeks, false)
     const post = computeSBM(cfg, bucketIdx, greeks, true)
 
